@@ -24,8 +24,9 @@ public class Main {
     public static HttpServer startServer() {
         // create a resource config that scans for JAX-RS resources and providers
         // in com.crossover package
-        final ResourceConfig rc = new ResourceConfig().packages("com.crossover");
-        rc.register(MultiPartFeature.class);
+        final ResourceConfig rc = new ResourceConfig()
+                .packages("com.crossover.resources")
+                .register(MultiPartFeature.class);
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
