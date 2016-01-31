@@ -1,13 +1,18 @@
 package com.crossover.resources;
 
-import org.glassfish.jersey.media.multipart.FormDataParam;
+import com.crossover.application.UserManager;
+import com.crossover.model.User;
+import org.glassfish.grizzly.http.server.Request;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.UUID;
+
 
 /**
  * User: anlcan
@@ -16,6 +21,12 @@ import javax.ws.rs.core.Response;
  */
 @Path("/users")
 public class UserResources {
+
+    public static final int SESSION_TIMEOUT = 1000 * 5;
+
+    @Context
+    private Request httpRequest;
+
     /**
      *
      * @return
@@ -23,8 +34,10 @@ public class UserResources {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     public Response get(){
-        return Response.status(200).build();
+        return Response.status(200).entity("{}").build();
     }
+
+    private static final Object USER_NOT_FOUND = null;
 
     /**
      * check user login
@@ -35,11 +48,21 @@ public class UserResources {
     @POST
     @Path("login")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response login(@FormDataParam("email") String username,
-                          @FormDataParam("password") String password ){
+    public Response login(@FormParam("email") String username,
+                          @FormParam("password") String password ) throws URISyntaxException {
         System.out.println(username);
         System.out.println(password);
-        return Response.status(200).build();
+
+        User user = UserManager.checkCredentials(username, password);
+        if ( user != USER_NOT_FOUND) {
+            return Response.seeOther(new URI("/publisher.html")).
+                    cookie(new NewCookie("com.crossover", UUID.randomUUID().toString(), "/", "localhost", null, SESSION_TIMEOUT/*maxAge*/, false)).build();
+        } else {
+            return   Response
+                    .status(Response.Status.UNAUTHORIZED)
+                    .entity("Credentials error")
+                    .build();
+        }
     }
 
 }

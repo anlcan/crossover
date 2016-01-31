@@ -8,16 +8,15 @@ import com.crossover.model.User;
  * Time: 19:43
  */
 public class UserManager {
-    private static UserManager ourInstance = new UserManager();
 
-    public static UserManager getInstance() {
-        return ourInstance;
-    }
-
-    private UserManager() {
-    }
-
+    /**
+     *
+     * @param email
+     * @param passwor
+     * @return
+     */
     public static User checkCredentials(String email, String passwor){
         return new User();
     }
+
 }

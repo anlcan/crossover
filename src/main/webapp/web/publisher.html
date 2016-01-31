@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Form Page</title>
+</head>
+<body>
+<h1>Upload a File</h1>
+
+<table id="journals_table" border='1'>
+    <tr>
+        <th>Rank</th>
+        <th>Content</th>
+        <th>UID</th>
+    </tr>
+</table>
+
+<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script>
+    $(window).load(function () {
+        $.ajax('/myapp/journals').done(function(response) {
+            $("#journals_table tr").remove();
+
+            var trHTML = '';
+            $.each(response, function (i, item) {
+                trHTML += '<tr><td>' + item.key + '</td>' +
+                        '<td>' + item.content + '</td>' +
+                        '<td>' + item.UID + '</td></tr>';
+            });
+            $('#journals_table').append(trHTML);;
+        });
+        });
+</script>
+
+</body>
+</html>

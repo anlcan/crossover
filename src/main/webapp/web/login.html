@@ -43,26 +43,5 @@
       </form>
 
     </div> <!-- /container -->
-
-
-
-    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="assets/js/ode-al.js"></script>
-    <script>
-      $(window).load(function () {
-        if (show_env) {
-          $("#env_select").css('dislay', 'block');
-        } else {
-          $("#env_select").css('display', 'none');
-        }
-        if (env_value) {
-          $('#env_select option').filter(function () {
-            return $(this).val() === env_value;
-          }).attr('selected', true);
-        }
-      });
-    </script>
   </body>
 </html>
